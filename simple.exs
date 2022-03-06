@@ -244,5 +244,53 @@ to_string(:atom) # => "atom"
 to_string(1) # => "1"
 
 # to concatenate charlists, use the ++ operator
-'hello' ++ ' ' ++ [?w, ?o, ?r, ?l, ?d] # => "hello world"
+'hello' ++ ' ' ++ [?w, ?o, ?r, ?l, ?d] # => "hello world" 
+
+# -- keyword lists --
+
+# to split strings into a list of characters, we use the String.split/2 function
+String.split("hello world", " ") # => ["hello", "world"]
+
+# but look what happens if there's more than one space next to each other 
+String.split("hello  world", " ") # => ["hello", "", "world"]
+
+# luckily, String.split/3 allows us to specify to trim the whitespace
+String.split("hello  world", " ", [trim: true]) # => ["hello", "world"]
+
+# that's a keyword list. it's a list of keywords, and you can use them to specify options
+# furthermore, if it's at the end of a function call, we can skip the brackets! 
+
+String.split("hello  world", " ", trim: true) # => ["hello", "world"] 
+
+# simply put, keyword lists are lists of 2-element tuples, where the first element is an atom 
+# of the option name and the second element is its value 
+
+# therefore, 
+[{ :trim, true }] == [trim: true] # => true 
+
+# since keyword lists are lists, you can use any list operator on them 
+opts = [a: true, b: false] ++ [c: 1] # => [a: true, b: false, c: 1] 
+
+# we can also retrieve the value of a keyword list using bracket syntax: 
+opts[:a] # => true 
+
+# if there are duplicate options, the last one is used
+opts = [a: true, a: false] 
+opts[:a] # => false 
+
+# keyword lists are important because of 3 special characteristics: 
+#   1. keys must be atoms 
+#   2. keys are ordered as specified by the developer
+#   3. keys can be given more than once 
+
+# we can pattern match on keyword lists, but it's rare because the order has to be the same 
+
+# in order to manipulate keyword lists, we use the Keyword module 
+# https://hexdocs.pm/elixir/Keyword.html
+
+# remember that keyword lists are still lists, and they provide the same linear performance characteristics 
+# -> the longer the list, the longer it takes to traverse the elements 
+
+# for this reason, we use keyword lists when we need to specify optional options 
+
 
