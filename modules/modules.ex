@@ -41,7 +41,7 @@ defmodule MyModule do
 
     case res do 
       :ok -> 
-        # ... 
+        nil 
       :error -> 
         raise("could not open file, #{inspect(res)}")
     end
@@ -50,10 +50,10 @@ defmodule MyModule do
   # for more information see https://hexdocs.pm/elixir/main/naming-conventions.html#trailing-bang-foo 
 
   # we can also use keyword lists (see intro/keyword_lists_maps.exs) for functions 
-  def one?(1) do: true 
-  def one?(x) when is_integer(x) do: false
-
+  def one?(1), do: true 
+  def one?(x) when is_integer(x), do: false
   # using those isn't recommended for multi-line functions, but it's OK for one-liners 
+
 end
 
 # if we compile this file with elixirc, we get a very nice new Elixir.MyModule.beam file
