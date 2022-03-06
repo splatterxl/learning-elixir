@@ -180,10 +180,6 @@ b = <<3::8>> # a binary
 true = is_binary b
 true = is_bitstring b
 
-c = "hellö" # not a bitstring, but still a binary (strings are just bitstrings of UTF-8 codepoints)
-true = is_binary c
-false = is_bitstring c 
-
 # not every binary is a valid string 
 String.valid?(<<239, 191, 19>>) # => false
 
@@ -224,4 +220,29 @@ rest # => <<98, 101, 114>>; "ber"
 
 # elixir has excellent support for strings, as you can see. 
 
+# a charlist is a list of valid code points, and can be used to store strings
+# whereas strings (binaries) are denoted by "", charlists are created with single quotes 
+'hello' = [?h, ?e, ?l, ?l, ?o] 
+
+# you won't really see this often, except when you're interfacing directly with erlang or using an old library
+# that doesn't support binaries.
+
+# in IEx, any list that has valid ASCII code points (0..127) will be converted to a string to print, which can lead to 
+# unexpected results 
+heartbeats_per_minute = [99, 97, 116]
+
+# you won't guess what this prints 
+
+inspect(heartbeats_per_minute) # => 'cat'
+
+# you can convert charlists (and other values) to strings using to_string/1 
+to_string(heartbeats_per_minute) # => "cat"
+to_charlist("hełło") # => [104, 101, 322, 322, 111]
+
+# to_string/1 is polymorphic, so it can be used on any value
+to_string(:atom) # => "atom"
+to_string(1) # => "1"
+
+# to concatenate charlists, use the ++ operator
+'hello' ++ ' ' ++ [?w, ?o, ?r, ?l, ?d] # => "hello world"
 
