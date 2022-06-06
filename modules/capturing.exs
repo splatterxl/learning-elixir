@@ -3,7 +3,7 @@
 
 &rem/2; # => &:erlang.rem/2, a reference to the function 
 
-# it's treated as an anonymous function 
+# it's treated as an anonymous function, so you must use a dot to access the function
 func = &rem/2;
 
 func.(3, 2); # => 1
